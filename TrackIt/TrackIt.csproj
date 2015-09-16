@@ -43,6 +43,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -171,12 +173,49 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Address.cs">
+      <DependentUpon>Fellowship.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AppUser.cs">
+      <DependentUpon>Fellowship.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Bank.cs">
+      <DependentUpon>Fellowship.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Fellowship.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Fellowship.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Fellowship.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Fellowship.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Fellowship.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Fellowship.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Organization.cs">
+      <DependentUpon>Fellowship.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrgType.cs">
+      <DependentUpon>Fellowship.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Payment.cs">
+      <DependentUpon>Fellowship.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Person.cs">
+      <DependentUpon>Fellowship.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -189,6 +228,23 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Models\Fellowship.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Fellowship.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Fellowship.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Fellowship.edmx</DependentUpon>
+      <LastGenOutput>Fellowship.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Fellowship.edmx.diagram">
+      <DependentUpon>Fellowship.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\Fellowship.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Fellowship.edmx</DependentUpon>
+      <LastGenOutput>Fellowship.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -239,6 +295,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Person\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -246,6 +303,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

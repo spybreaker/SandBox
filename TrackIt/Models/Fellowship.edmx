@@ -1,0 +1,462 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FellowshipModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddressId" />
+          </Key>
+          <Property Name="AddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AddressLine1" Type="varchar" MaxLength="75" />
+          <Property Name="AddressLine2" Type="varchar" MaxLength="75" />
+          <Property Name="AddressLine3" Type="varchar" MaxLength="75" />
+          <Property Name="City" Type="varchar" MaxLength="30" />
+          <Property Name="Province" Type="varchar" MaxLength="50" />
+          <Property Name="District" Type="varchar" MaxLength="30" />
+          <Property Name="State" Type="varchar" MaxLength="30" />
+          <Property Name="ZipCode" Type="varchar" MaxLength="15" />
+          <Property Name="Country" Type="int" />
+          <Property Name="MobileNumber1" Type="varchar" MaxLength="15" />
+          <Property Name="MobileNumber2" Type="varchar" MaxLength="15" />
+          <Property Name="TelephoneNumber1" Type="varchar" MaxLength="15" />
+          <Property Name="TelephoneNumber2" Type="varchar" MaxLength="15" />
+          <Property Name="FaxNumber" Type="varchar" MaxLength="15" />
+          <Property Name="Contactid1" Type="int" />
+          <Property Name="ContactId2" Type="int" />
+          <Property Name="ContactId3" Type="int" />
+          <Property Name="Notes" Type="varchar" MaxLength="250" />
+          <Property Name="CreatedById" Type="int" />
+          <Property Name="CreatedByDate" Type="datetime" />
+          <Property Name="UpdatedById" Type="int" />
+          <Property Name="UpdatedByDate" Type="datetime" />
+          <Property Name="DeletedBy" Type="int" />
+          <Property Name="DeletedByDate" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="CareOfAddressId" Type="int" />
+          <Property Name="UseCareOfAddress" Type="bit" />
+        </EntityType>
+        <EntityType Name="AppUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="35" />
+          <Property Name="DisplayName" Type="varchar" MaxLength="75" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+          <Property Name="Role" Type="int" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="UpdatedByDate" Type="datetime" />
+          <Property Name="DeletedBy" Type="int" />
+          <Property Name="DeletedByDate" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="Bank">
+          <Key>
+            <PropertyRef Name="BankId" />
+          </Key>
+          <Property Name="BankId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BankName" Type="varchar" MaxLength="50" />
+          <Property Name="RoutingCode" Type="varchar" MaxLength="15" />
+          <Property Name="AccountNumber" Type="varchar" MaxLength="15" />
+          <Property Name="SwiftCode" Type="varchar" MaxLength="15" />
+          <Property Name="AddressId" Type="int" />
+        </EntityType>
+        <EntityType Name="Organization">
+          <Key>
+            <PropertyRef Name="OrgId" />
+          </Key>
+          <Property Name="OrgId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrgName" Type="varchar" MaxLength="100" />
+          <Property Name="TypeId" Type="int" />
+          <Property Name="AddressId" Type="int" />
+        </EntityType>
+        <EntityType Name="OrgType">
+          <Key>
+            <PropertyRef Name="OrgTypeId" />
+          </Key>
+          <Property Name="OrgTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="varchar" MaxLength="35" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+          </Key>
+          <Property Name="PaymentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RecipientId" Type="int" Nullable="false" />
+          <Property Name="BankId" Type="int" />
+          <Property Name="Amount" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Description" Type="varchar" MaxLength="250" />
+          <Property Name="CheckNumber" Type="varchar" MaxLength="10" />
+          <Property Name="CheckedSignedById" Type="int" />
+          <Property Name="CheckDate" Type="datetime" />
+          <Property Name="PaymentSentBy" Type="int" />
+          <Property Name="PaymentById" Type="int" />
+          <Property Name="IsCleared" Type="bit" />
+          <Property Name="IsClearedDate" Type="datetime" />
+          <Property Name="IsAcknowledged" Type="int" />
+          <Property Name="IsAcknowledgedDate" Type="datetime" />
+          <Property Name="Notes" Type="varchar" MaxLength="250" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedByDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="UpdatedByDate" Type="datetime" />
+          <Property Name="DeletedBy" Type="int" />
+          <Property Name="DeletedByDate" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="PersonId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="MiddleName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="DisplayName" Type="varchar" MaxLength="150" />
+          <Property Name="AlternateName" Type="varchar" MaxLength="150" />
+          <Property Name="Title" Type="varchar" MaxLength="10" />
+          <Property Name="Position" Type="varchar" MaxLength="50" />
+          <Property Name="Role" Type="varchar" MaxLength="50" />
+          <Property Name="Notes" Type="varchar" MaxLength="250" />
+          <Property Name="PrimaryContactId" Type="int" />
+          <Property Name="ContactDetailsId" Type="int" />
+          <Property Name="PrimaryBankId" Type="int" />
+          <Property Name="BankDetailsId" Type="int" />
+          <Property Name="OrganizationsId" Type="int" />
+          <Property Name="CreatedById" Type="int" />
+          <Property Name="CreatedByDate" Type="datetime" />
+          <Property Name="UpdatedById" Type="int" />
+          <Property Name="UpdatedByDate" Type="datetime" />
+          <Property Name="DeletedBy" Type="int" />
+          <Property Name="DeletedByDate" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" />
+        </EntityType>
+        <EntityContainer Name="FellowshipModelStoreContainer">
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AppUser" EntityType="Self.AppUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bank" EntityType="Self.Bank" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Organization" EntityType="Self.Organization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrgType" EntityType="Self.OrgType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FellowshipModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddressId" />
+          </Key>
+          <Property Name="AddressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AddressLine1" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="AddressLine2" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="AddressLine3" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Province" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="District" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ZipCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="Int32" />
+          <Property Name="MobileNumber1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="MobileNumber2" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="TelephoneNumber1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="TelephoneNumber2" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="FaxNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Contactid1" Type="Int32" />
+          <Property Name="ContactId2" Type="Int32" />
+          <Property Name="ContactId3" Type="Int32" />
+          <Property Name="Notes" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedById" Type="Int32" />
+          <Property Name="CreatedByDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedById" Type="Int32" />
+          <Property Name="UpdatedByDate" Type="DateTime" Precision="3" />
+          <Property Name="DeletedBy" Type="Int32" />
+          <Property Name="DeletedByDate" Type="DateTime" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="CareOfAddressId" Type="Int32" />
+          <Property Name="UseCareOfAddress" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="AppUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Role" Type="Int32" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedByDate" Type="DateTime" Precision="3" />
+          <Property Name="DeletedBy" Type="Int32" />
+          <Property Name="DeletedByDate" Type="DateTime" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Bank">
+          <Key>
+            <PropertyRef Name="BankId" />
+          </Key>
+          <Property Name="BankId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BankName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RoutingCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="AccountNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="SwiftCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="AddressId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Organization">
+          <Key>
+            <PropertyRef Name="OrgId" />
+          </Key>
+          <Property Name="OrgId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrgName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TypeId" Type="Int32" />
+          <Property Name="AddressId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="OrgType">
+          <Key>
+            <PropertyRef Name="OrgTypeId" />
+          </Key>
+          <Property Name="OrgTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+          </Key>
+          <Property Name="PaymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RecipientId" Type="Int32" Nullable="false" />
+          <Property Name="BankId" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CheckNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CheckedSignedById" Type="Int32" />
+          <Property Name="CheckDate" Type="DateTime" Precision="3" />
+          <Property Name="PaymentSentBy" Type="Int32" />
+          <Property Name="PaymentById" Type="Int32" />
+          <Property Name="IsCleared" Type="Boolean" />
+          <Property Name="IsClearedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsAcknowledged" Type="Int32" />
+          <Property Name="IsAcknowledgedDate" Type="DateTime" Precision="3" />
+          <Property Name="Notes" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedByDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedByDate" Type="DateTime" Precision="3" />
+          <Property Name="DeletedBy" Type="Int32" />
+          <Property Name="DeletedByDate" Type="DateTime" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="PersonId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="AlternateName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Title" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Notes" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="PrimaryContactId" Type="Int32" />
+          <Property Name="ContactDetailsId" Type="Int32" />
+          <Property Name="PrimaryBankId" Type="Int32" />
+          <Property Name="BankDetailsId" Type="Int32" />
+          <Property Name="OrganizationsId" Type="Int32" />
+          <Property Name="CreatedById" Type="Int32" />
+          <Property Name="CreatedByDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedById" Type="Int32" />
+          <Property Name="UpdatedByDate" Type="DateTime" Precision="3" />
+          <Property Name="DeletedBy" Type="Int32" />
+          <Property Name="DeletedByDate" Type="DateTime" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" />
+        </EntityType>
+        <EntityContainer Name="FellowshipEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Addresses" EntityType="Self.Address" />
+          <EntitySet Name="AppUsers" EntityType="Self.AppUser" />
+          <EntitySet Name="Banks" EntityType="Self.Bank" />
+          <EntitySet Name="Organizations" EntityType="Self.Organization" />
+          <EntitySet Name="OrgTypes" EntityType="Self.OrgType" />
+          <EntitySet Name="Payments" EntityType="Self.Payment" />
+          <EntitySet Name="People" EntityType="Self.Person" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FellowshipModelStoreContainer" CdmEntityContainer="FellowshipEntities">
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="FellowshipModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="UseCareOfAddress" ColumnName="UseCareOfAddress" />
+                <ScalarProperty Name="CareOfAddressId" ColumnName="CareOfAddressId" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="AddressLine3" ColumnName="AddressLine3" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="MobileNumber1" ColumnName="MobileNumber1" />
+                <ScalarProperty Name="MobileNumber2" ColumnName="MobileNumber2" />
+                <ScalarProperty Name="TelephoneNumber1" ColumnName="TelephoneNumber1" />
+                <ScalarProperty Name="TelephoneNumber2" ColumnName="TelephoneNumber2" />
+                <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
+                <ScalarProperty Name="Contactid1" ColumnName="Contactid1" />
+                <ScalarProperty Name="ContactId2" ColumnName="ContactId2" />
+                <ScalarProperty Name="ContactId3" ColumnName="ContactId3" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="CreatedById" ColumnName="CreatedById" />
+                <ScalarProperty Name="CreatedByDate" ColumnName="CreatedByDate" />
+                <ScalarProperty Name="UpdatedById" ColumnName="UpdatedById" />
+                <ScalarProperty Name="UpdatedByDate" ColumnName="UpdatedByDate" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="DeletedByDate" ColumnName="DeletedByDate" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AppUsers">
+            <EntityTypeMapping TypeName="FellowshipModel.AppUser">
+              <MappingFragment StoreEntitySet="AppUser">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedByDate" ColumnName="UpdatedByDate" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="DeletedByDate" ColumnName="DeletedByDate" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Banks">
+            <EntityTypeMapping TypeName="FellowshipModel.Bank">
+              <MappingFragment StoreEntitySet="Bank">
+                <ScalarProperty Name="BankId" ColumnName="BankId" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="RoutingCode" ColumnName="RoutingCode" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="SwiftCode" ColumnName="SwiftCode" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Organizations">
+            <EntityTypeMapping TypeName="FellowshipModel.Organization">
+              <MappingFragment StoreEntitySet="Organization">
+                <ScalarProperty Name="OrgId" ColumnName="OrgId" />
+                <ScalarProperty Name="OrgName" ColumnName="OrgName" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrgTypes">
+            <EntityTypeMapping TypeName="FellowshipModel.OrgType">
+              <MappingFragment StoreEntitySet="OrgType">
+                <ScalarProperty Name="OrgTypeId" ColumnName="OrgTypeId" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="FellowshipModel.Payment">
+              <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+                <ScalarProperty Name="RecipientId" ColumnName="RecipientId" />
+                <ScalarProperty Name="BankId" ColumnName="BankId" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CheckNumber" ColumnName="CheckNumber" />
+                <ScalarProperty Name="CheckedSignedById" ColumnName="CheckedSignedById" />
+                <ScalarProperty Name="CheckDate" ColumnName="CheckDate" />
+                <ScalarProperty Name="PaymentSentBy" ColumnName="PaymentSentBy" />
+                <ScalarProperty Name="PaymentById" ColumnName="PaymentById" />
+                <ScalarProperty Name="IsCleared" ColumnName="IsCleared" />
+                <ScalarProperty Name="IsClearedDate" ColumnName="IsClearedDate" />
+                <ScalarProperty Name="IsAcknowledged" ColumnName="IsAcknowledged" />
+                <ScalarProperty Name="IsAcknowledgedDate" ColumnName="IsAcknowledgedDate" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedByDate" ColumnName="CreatedByDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedByDate" ColumnName="UpdatedByDate" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="DeletedByDate" ColumnName="DeletedByDate" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="FellowshipModel.Person">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="AlternateName" ColumnName="AlternateName" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="PrimaryContactId" ColumnName="PrimaryContactId" />
+                <ScalarProperty Name="ContactDetailsId" ColumnName="ContactDetailsId" />
+                <ScalarProperty Name="PrimaryBankId" ColumnName="PrimaryBankId" />
+                <ScalarProperty Name="BankDetailsId" ColumnName="BankDetailsId" />
+                <ScalarProperty Name="OrganizationsId" ColumnName="OrganizationsId" />
+                <ScalarProperty Name="CreatedById" ColumnName="CreatedById" />
+                <ScalarProperty Name="CreatedByDate" ColumnName="CreatedByDate" />
+                <ScalarProperty Name="UpdatedById" ColumnName="UpdatedById" />
+                <ScalarProperty Name="UpdatedByDate" ColumnName="UpdatedByDate" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="DeletedByDate" ColumnName="DeletedByDate" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
