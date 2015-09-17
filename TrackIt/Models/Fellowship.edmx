@@ -24,9 +24,6 @@
           <Property Name="TelephoneNumber1" Type="varchar" MaxLength="15" />
           <Property Name="TelephoneNumber2" Type="varchar" MaxLength="15" />
           <Property Name="FaxNumber" Type="varchar" MaxLength="15" />
-          <Property Name="Contactid1" Type="int" />
-          <Property Name="ContactId2" Type="int" />
-          <Property Name="ContactId3" Type="int" />
           <Property Name="Notes" Type="varchar" MaxLength="250" />
           <Property Name="CreatedById" Type="int" />
           <Property Name="CreatedByDate" Type="datetime" />
@@ -35,8 +32,6 @@
           <Property Name="DeletedBy" Type="int" />
           <Property Name="DeletedByDate" Type="datetime" />
           <Property Name="IsDeleted" Type="bit" />
-          <Property Name="CareOfAddressId" Type="int" />
-          <Property Name="UseCareOfAddress" Type="bit" />
         </EntityType>
         <EntityType Name="AppUser">
           <Key>
@@ -65,21 +60,32 @@
           <Property Name="AccountNumber" Type="varchar" MaxLength="15" />
           <Property Name="SwiftCode" Type="varchar" MaxLength="15" />
           <Property Name="AddressId" Type="int" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="IsDeletedByDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="BankAddress">
+          <Key>
+            <PropertyRef Name="BankAddressId" />
+          </Key>
+          <Property Name="BankAddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BankId" Type="int" />
+          <Property Name="AddressId" Type="int" />
+          <Property Name="IsPrimary" Type="bit" />
         </EntityType>
         <EntityType Name="Organization">
           <Key>
-            <PropertyRef Name="OrgId" />
+            <PropertyRef Name="OrganizationId" />
           </Key>
-          <Property Name="OrgId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="OrgName" Type="varchar" MaxLength="100" />
-          <Property Name="TypeId" Type="int" />
+          <Property Name="OrganizationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrganizationName" Type="varchar" MaxLength="100" />
+          <Property Name="OrganizationTypeId" Type="int" />
           <Property Name="AddressId" Type="int" />
         </EntityType>
-        <EntityType Name="OrgType">
+        <EntityType Name="OrganizationType">
           <Key>
-            <PropertyRef Name="OrgTypeId" />
+            <PropertyRef Name="OrganizationTypeId" />
           </Key>
-          <Property Name="OrgTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrganizationTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TypeName" Type="varchar" MaxLength="35" />
           <Property Name="Description" Type="varchar" MaxLength="50" />
         </EntityType>
@@ -89,7 +95,7 @@
           </Key>
           <Property Name="PaymentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RecipientId" Type="int" Nullable="false" />
-          <Property Name="BankId" Type="int" />
+          <Property Name="PersonBankId" Type="int" />
           <Property Name="Amount" Type="numeric" Precision="18" Scale="2" />
           <Property Name="Description" Type="varchar" MaxLength="250" />
           <Property Name="CheckNumber" Type="varchar" MaxLength="10" />
@@ -102,11 +108,11 @@
           <Property Name="IsAcknowledged" Type="int" />
           <Property Name="IsAcknowledgedDate" Type="datetime" />
           <Property Name="Notes" Type="varchar" MaxLength="250" />
-          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedByUserId" Type="int" />
           <Property Name="CreatedByDate" Type="datetime" />
-          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="UpdatedByUserId" Type="int" />
           <Property Name="UpdatedByDate" Type="datetime" />
-          <Property Name="DeletedBy" Type="int" />
+          <Property Name="DeletedByUserId" Type="int" />
           <Property Name="DeletedByDate" Type="datetime" />
           <Property Name="IsDeleted" Type="bit" />
         </EntityType>
@@ -124,11 +130,9 @@
           <Property Name="Position" Type="varchar" MaxLength="50" />
           <Property Name="Role" Type="varchar" MaxLength="50" />
           <Property Name="Notes" Type="varchar" MaxLength="250" />
-          <Property Name="PrimaryContactId" Type="int" />
-          <Property Name="ContactDetailsId" Type="int" />
-          <Property Name="PrimaryBankId" Type="int" />
-          <Property Name="BankDetailsId" Type="int" />
-          <Property Name="OrganizationsId" Type="int" />
+          <Property Name="PersonAddressId" Type="int" />
+          <Property Name="PersonBankId" Type="int" />
+          <Property Name="PersonOrganizationId" Type="int" />
           <Property Name="CreatedById" Type="int" />
           <Property Name="CreatedByDate" Type="datetime" />
           <Property Name="UpdatedById" Type="int" />
@@ -136,15 +140,319 @@
           <Property Name="DeletedBy" Type="int" />
           <Property Name="DeletedByDate" Type="datetime" />
           <Property Name="IsDeleted" Type="bit" />
+          <Property Name="PersonCareOfAddressId" Type="int" />
         </EntityType>
+        <EntityType Name="PersonAddress">
+          <Key>
+            <PropertyRef Name="PersonAddressId" />
+          </Key>
+          <Property Name="PersonAddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonId" Type="int" />
+          <Property Name="AddressId" Type="int" />
+          <Property Name="IsPrimary" Type="bit" />
+        </EntityType>
+        <EntityType Name="PersonBank">
+          <Key>
+            <PropertyRef Name="PersonBankId" />
+          </Key>
+          <Property Name="PersonBankId" Type="int" Nullable="false" />
+          <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="BankId" Type="int" Nullable="false" />
+          <Property Name="IsPrimaryBank" Type="bit" />
+        </EntityType>
+        <EntityType Name="PersonOrganization">
+          <Key>
+            <PropertyRef Name="PersonOrganizationId" />
+          </Key>
+          <Property Name="PersonOrganizationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonId" Type="int" />
+          <Property Name="OrganizationId" Type="int" />
+          <Property Name="IsPrimary" Type="bit" />
+        </EntityType>
+        <Association Name="FK_Bank_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <End Role="Bank" Type="Self.Bank" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="Bank">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BankAddress_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <End Role="BankAddress" Type="Self.BankAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="BankAddress">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BankAddress_Bank">
+          <End Role="Bank" Type="Self.Bank" Multiplicity="0..1" />
+          <End Role="BankAddress" Type="Self.BankAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="BankId" />
+            </Principal>
+            <Dependent Role="BankAddress">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BankAddress_Bank1">
+          <End Role="Bank" Type="Self.Bank" Multiplicity="0..1" />
+          <End Role="BankAddress" Type="Self.BankAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="BankId" />
+            </Principal>
+            <Dependent Role="BankAddress">
+              <PropertyRef Name="BankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organization_OrgType">
+          <End Role="OrganizationType" Type="Self.OrganizationType" Multiplicity="0..1" />
+          <End Role="Organization" Type="Self.Organization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrganizationType">
+              <PropertyRef Name="OrganizationTypeId" />
+            </Principal>
+            <Dependent Role="Organization">
+              <PropertyRef Name="OrganizationTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_PersonBank">
+          <End Role="PersonBank" Type="Self.PersonBank" Multiplicity="0..1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonBank">
+              <PropertyRef Name="PersonBankId" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="PersonBankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_Recipient">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="PersonId" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="RecipientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Person_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="PersonCareOfAddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Person_BankDetailsId">
+          <End Role="PersonBank" Type="Self.PersonBank" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonBank">
+              <PropertyRef Name="PersonBankId" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="PersonBankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Person_PersonAddress">
+          <End Role="PersonAddress" Type="Self.PersonAddress" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonAddress">
+              <PropertyRef Name="PersonAddressId" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="PersonAddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Person_PersonOrganization">
+          <End Role="PersonOrganization" Type="Self.PersonOrganization" Multiplicity="0..1" />
+          <End Role="Person" Type="Self.Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonOrganization">
+              <PropertyRef Name="PersonOrganizationId" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="PersonOrganizationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonAddress_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <End Role="PersonAddress" Type="Self.PersonAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="PersonAddress">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonAddress_PersonAddress">
+          <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+          <End Role="PersonAddress" Type="Self.PersonAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="PersonId" />
+            </Principal>
+            <Dependent Role="PersonAddress">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonBank_1_Person">
+          <End Role="Person" Type="Self.Person" Multiplicity="1" />
+          <End Role="PersonBank" Type="Self.PersonBank" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="PersonId" />
+            </Principal>
+            <Dependent Role="PersonBank">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonBank_Bank">
+          <End Role="Bank" Type="Self.Bank" Multiplicity="1" />
+          <End Role="PersonBank" Type="Self.PersonBank" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="BankId" />
+            </Principal>
+            <Dependent Role="PersonBank">
+              <PropertyRef Name="BankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonOrganization_Organization">
+          <End Role="Organization" Type="Self.Organization" Multiplicity="0..1" />
+          <End Role="PersonOrganization" Type="Self.PersonOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="OrganizationId" />
+            </Principal>
+            <Dependent Role="PersonOrganization">
+              <PropertyRef Name="OrganizationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonOrganization_PersonOrganization">
+          <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+          <End Role="PersonOrganization" Type="Self.PersonOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="PersonId" />
+            </Principal>
+            <Dependent Role="PersonOrganization">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="FellowshipModelStoreContainer">
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AppUser" EntityType="Self.AppUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Bank" EntityType="Self.Bank" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BankAddress" EntityType="Self.BankAddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organization" EntityType="Self.Organization" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="OrgType" EntityType="Self.OrgType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrganizationType" EntityType="Self.OrganizationType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonAddress" EntityType="Self.PersonAddress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonBank" EntityType="Self.PersonBank" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonOrganization" EntityType="Self.PersonOrganization" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Bank_Address" Association="Self.FK_Bank_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Bank" EntitySet="Bank" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BankAddress_Address" Association="Self.FK_BankAddress_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="BankAddress" EntitySet="BankAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BankAddress_Bank" Association="Self.FK_BankAddress_Bank">
+            <End Role="Bank" EntitySet="Bank" />
+            <End Role="BankAddress" EntitySet="BankAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BankAddress_Bank1" Association="Self.FK_BankAddress_Bank1">
+            <End Role="Bank" EntitySet="Bank" />
+            <End Role="BankAddress" EntitySet="BankAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organization_OrgType" Association="Self.FK_Organization_OrgType">
+            <End Role="OrganizationType" EntitySet="OrganizationType" />
+            <End Role="Organization" EntitySet="Organization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_PersonBank" Association="Self.FK_Payment_PersonBank">
+            <End Role="PersonBank" EntitySet="PersonBank" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_Recipient" Association="Self.FK_Payment_Recipient">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Person_Address" Association="Self.FK_Person_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Person_BankDetailsId" Association="Self.FK_Person_BankDetailsId">
+            <End Role="PersonBank" EntitySet="PersonBank" />
+            <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Person_PersonAddress" Association="Self.FK_Person_PersonAddress">
+            <End Role="PersonAddress" EntitySet="PersonAddress" />
+            <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Person_PersonOrganization" Association="Self.FK_Person_PersonOrganization">
+            <End Role="PersonOrganization" EntitySet="PersonOrganization" />
+            <End Role="Person" EntitySet="Person" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonAddress_Address" Association="Self.FK_PersonAddress_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="PersonAddress" EntitySet="PersonAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonAddress_PersonAddress" Association="Self.FK_PersonAddress_PersonAddress">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="PersonAddress" EntitySet="PersonAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonBank_1_Person" Association="Self.FK_PersonBank_1_Person">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="PersonBank" EntitySet="PersonBank" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonBank_Bank" Association="Self.FK_PersonBank_Bank">
+            <End Role="Bank" EntitySet="Bank" />
+            <End Role="PersonBank" EntitySet="PersonBank" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonOrganization_Organization" Association="Self.FK_PersonOrganization_Organization">
+            <End Role="Organization" EntitySet="Organization" />
+            <End Role="PersonOrganization" EntitySet="PersonOrganization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonOrganization_PersonOrganization" Association="Self.FK_PersonOrganization_PersonOrganization">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="PersonOrganization" EntitySet="PersonOrganization" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -182,6 +490,10 @@
           <Property Name="IsDeleted" Type="Boolean" />
           <Property Name="CareOfAddressId" Type="Int32" />
           <Property Name="UseCareOfAddress" Type="Boolean" />
+          <NavigationProperty Name="Banks" Relationship="FellowshipModel.FK_Bank_Address" FromRole="Address" ToRole="Bank" />
+          <NavigationProperty Name="People" Relationship="FellowshipModel.FK_Person_Address" FromRole="Address" ToRole="Person" />
+          <NavigationProperty Name="BankAddresses" Relationship="FellowshipModel.FK_BankAddress_Address" FromRole="Address" ToRole="BankAddress" />
+          <NavigationProperty Name="PersonAddresses" Relationship="FellowshipModel.FK_PersonAddress_Address" FromRole="Address" ToRole="PersonAddress" />
         </EntityType>
         <EntityType Name="AppUser">
           <Key>
@@ -210,15 +522,28 @@
           <Property Name="AccountNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="SwiftCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="AddressId" Type="Int32" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="IsDeletedByDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Address" Relationship="FellowshipModel.FK_Bank_Address" FromRole="Bank" ToRole="Address" />
+          <NavigationProperty Name="BankAddresses" Relationship="FellowshipModel.FK_BankAddress_Bank" FromRole="Bank" ToRole="BankAddress" />
+          <NavigationProperty Name="BankAddresses1" Relationship="FellowshipModel.FK_BankAddress_Bank1" FromRole="Bank" ToRole="BankAddress" />
+          <NavigationProperty Name="PersonBanks" Relationship="FellowshipModel.FK_PersonBank_Bank" FromRole="Bank" ToRole="PersonBank" />
         </EntityType>
         <EntityType Name="Organization">
           <Key>
             <PropertyRef Name="OrgId" />
+            <PropertyRef Name="OrganizationId" />
           </Key>
           <Property Name="OrgId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OrgName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="TypeId" Type="Int32" />
           <Property Name="AddressId" Type="Int32" />
+          <NavigationProperty Name="OrgType" Relationship="FellowshipModel.FK_Organization_OrgType" FromRole="Organization" ToRole="OrgType" />
+          <Property Name="OrganizationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrganizationName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="OrganizationTypeId" Type="Int32" />
+          <NavigationProperty Name="OrganizationType" Relationship="FellowshipModel.FK_Organization_OrgType1" FromRole="Organization" ToRole="OrganizationType" />
+          <NavigationProperty Name="PersonOrganizations" Relationship="FellowshipModel.FK_PersonOrganization_Organization" FromRole="Organization" ToRole="PersonOrganization" />
         </EntityType>
         <EntityType Name="OrgType">
           <Key>
@@ -227,6 +552,7 @@
           <Property Name="OrgTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TypeName" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Organization" Relationship="FellowshipModel.FK_Organization_OrgType" FromRole="OrgType" ToRole="Organization" />
         </EntityType>
         <EntityType Name="Payment">
           <Key>
@@ -254,6 +580,12 @@
           <Property Name="DeletedBy" Type="Int32" />
           <Property Name="DeletedByDate" Type="DateTime" Precision="3" />
           <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="PersonBankId" Type="Int32" />
+          <Property Name="CreatedByUserId" Type="Int32" />
+          <Property Name="UpdatedByUserId" Type="Int32" />
+          <Property Name="DeletedByUserId" Type="Int32" />
+          <NavigationProperty Name="Person" Relationship="FellowshipModel.FK_Payment_Recipient" FromRole="Payment" ToRole="Person" />
+          <NavigationProperty Name="PersonBank" Relationship="FellowshipModel.FK_Payment_PersonBank" FromRole="Payment" ToRole="PersonBank" />
         </EntityType>
         <EntityType Name="Person">
           <Key>
@@ -281,6 +613,18 @@
           <Property Name="DeletedBy" Type="Int32" />
           <Property Name="DeletedByDate" Type="DateTime" Precision="3" />
           <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="PersonAddressId" Type="Int32" />
+          <Property Name="PersonBankId" Type="Int32" />
+          <Property Name="PersonOrganizationId" Type="Int32" />
+          <Property Name="PersonCareOfAddressId" Type="Int32" />
+          <NavigationProperty Name="Address" Relationship="FellowshipModel.FK_Person_Address" FromRole="Person" ToRole="Address" />
+          <NavigationProperty Name="Payments" Relationship="FellowshipModel.FK_Payment_Recipient" FromRole="Person" ToRole="Payment" />
+          <NavigationProperty Name="PersonBank" Relationship="FellowshipModel.FK_Person_BankDetailsId" FromRole="Person" ToRole="PersonBank" />
+          <NavigationProperty Name="PersonAddress" Relationship="FellowshipModel.FK_Person_PersonAddress" FromRole="Person" ToRole="PersonAddress" />
+          <NavigationProperty Name="PersonOrganization" Relationship="FellowshipModel.FK_Person_PersonOrganization" FromRole="Person" ToRole="PersonOrganization" />
+          <NavigationProperty Name="PersonAddresses" Relationship="FellowshipModel.FK_PersonAddress_PersonAddress" FromRole="Person" ToRole="PersonAddress" />
+          <NavigationProperty Name="PersonBanks" Relationship="FellowshipModel.FK_PersonBank_1_Person" FromRole="Person" ToRole="PersonBank" />
+          <NavigationProperty Name="PersonOrganizations" Relationship="FellowshipModel.FK_PersonOrganization_PersonOrganization" FromRole="Person" ToRole="PersonOrganization" />
         </EntityType>
         <EntityContainer Name="FellowshipEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Addresses" EntityType="Self.Address" />
@@ -290,7 +634,358 @@
           <EntitySet Name="OrgTypes" EntityType="Self.OrgType" />
           <EntitySet Name="Payments" EntityType="Self.Payment" />
           <EntitySet Name="People" EntityType="Self.Person" />
+          <AssociationSet Name="FK_Organization_OrgType" Association="FellowshipModel.FK_Organization_OrgType">
+            <End Role="OrgType" EntitySet="OrgTypes" />
+            <End Role="Organization" EntitySet="Organizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bank_Address" Association="FellowshipModel.FK_Bank_Address">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="Bank" EntitySet="Banks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Person_Address" Association="FellowshipModel.FK_Person_Address">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="Person" EntitySet="People" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_Recipient" Association="FellowshipModel.FK_Payment_Recipient">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <EntitySet Name="BankAddresses" EntityType="FellowshipModel.BankAddress" />
+          <EntitySet Name="OrganizationTypes" EntityType="FellowshipModel.OrganizationType" />
+          <EntitySet Name="PersonAddresses" EntityType="FellowshipModel.PersonAddress" />
+          <EntitySet Name="PersonBanks" EntityType="FellowshipModel.PersonBank" />
+          <EntitySet Name="PersonOrganizations" EntityType="FellowshipModel.PersonOrganization" />
+          <AssociationSet Name="FK_BankAddress_Address" Association="FellowshipModel.FK_BankAddress_Address">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="BankAddress" EntitySet="BankAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonAddress_Address" Association="FellowshipModel.FK_PersonAddress_Address">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="PersonAddress" EntitySet="PersonAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BankAddress_Bank" Association="FellowshipModel.FK_BankAddress_Bank">
+            <End Role="Bank" EntitySet="Banks" />
+            <End Role="BankAddress" EntitySet="BankAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BankAddress_Bank1" Association="FellowshipModel.FK_BankAddress_Bank1">
+            <End Role="Bank" EntitySet="Banks" />
+            <End Role="BankAddress" EntitySet="BankAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonBank_Bank" Association="FellowshipModel.FK_PersonBank_Bank">
+            <End Role="Bank" EntitySet="Banks" />
+            <End Role="PersonBank" EntitySet="PersonBanks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Organization_OrgType1" Association="FellowshipModel.FK_Organization_OrgType1">
+            <End Role="OrganizationType" EntitySet="OrganizationTypes" />
+            <End Role="Organization" EntitySet="Organizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonOrganization_Organization" Association="FellowshipModel.FK_PersonOrganization_Organization">
+            <End Role="Organization" EntitySet="Organizations" />
+            <End Role="PersonOrganization" EntitySet="PersonOrganizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_PersonBank" Association="FellowshipModel.FK_Payment_PersonBank">
+            <End Role="PersonBank" EntitySet="PersonBanks" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Person_BankDetailsId" Association="FellowshipModel.FK_Person_BankDetailsId">
+            <End Role="PersonBank" EntitySet="PersonBanks" />
+            <End Role="Person" EntitySet="People" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Person_PersonAddress" Association="FellowshipModel.FK_Person_PersonAddress">
+            <End Role="PersonAddress" EntitySet="PersonAddresses" />
+            <End Role="Person" EntitySet="People" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Person_PersonOrganization" Association="FellowshipModel.FK_Person_PersonOrganization">
+            <End Role="PersonOrganization" EntitySet="PersonOrganizations" />
+            <End Role="Person" EntitySet="People" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonAddress_PersonAddress" Association="FellowshipModel.FK_PersonAddress_PersonAddress">
+            <End Role="Person" EntitySet="People" />
+            <End Role="PersonAddress" EntitySet="PersonAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonBank_1_Person" Association="FellowshipModel.FK_PersonBank_1_Person">
+            <End Role="Person" EntitySet="People" />
+            <End Role="PersonBank" EntitySet="PersonBanks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PersonOrganization_PersonOrganization" Association="FellowshipModel.FK_PersonOrganization_PersonOrganization">
+            <End Role="Person" EntitySet="People" />
+            <End Role="PersonOrganization" EntitySet="PersonOrganizations" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Organization_OrgType">
+          <End Type="FellowshipModel.OrgType" Role="OrgType" Multiplicity="1" />
+          <End Type="FellowshipModel.Organization" Role="Organization" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="OrgType">
+              <PropertyRef Name="OrgTypeId" />
+            </Principal>
+            <Dependent Role="Organization">
+              <PropertyRef Name="OrgId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bank_Address">
+          <End Type="FellowshipModel.Address" Role="Address" Multiplicity="0..1" />
+          <End Type="FellowshipModel.Bank" Role="Bank" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="Bank">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Person_Address">
+          <End Type="FellowshipModel.Address" Role="Address" Multiplicity="0..1" />
+          <End Type="FellowshipModel.Person" Role="Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="PersonCareOfAddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_Recipient">
+          <End Type="FellowshipModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="FellowshipModel.Payment" Role="Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="PersonId" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="RecipientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BankAddress">
+          <Key>
+            <PropertyRef Name="BankAddressId" />
+          </Key>
+          <Property Name="BankAddressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BankId" Type="Int32" />
+          <Property Name="AddressId" Type="Int32" />
+          <Property Name="IsPrimary" Type="Boolean" />
+          <NavigationProperty Name="Address" Relationship="FellowshipModel.FK_BankAddress_Address" FromRole="BankAddress" ToRole="Address" />
+          <NavigationProperty Name="Bank" Relationship="FellowshipModel.FK_BankAddress_Bank" FromRole="BankAddress" ToRole="Bank" />
+          <NavigationProperty Name="Bank1" Relationship="FellowshipModel.FK_BankAddress_Bank1" FromRole="BankAddress" ToRole="Bank" />
+        </EntityType>
+        <EntityType Name="OrganizationType">
+          <Key>
+            <PropertyRef Name="OrganizationTypeId" />
+          </Key>
+          <Property Name="OrganizationTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Organizations" Relationship="FellowshipModel.FK_Organization_OrgType1" FromRole="OrganizationType" ToRole="Organization" />
+        </EntityType>
+        <EntityType Name="PersonAddress">
+          <Key>
+            <PropertyRef Name="PersonAddressId" />
+          </Key>
+          <Property Name="PersonAddressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonId" Type="Int32" />
+          <Property Name="AddressId" Type="Int32" />
+          <Property Name="IsPrimary" Type="Boolean" />
+          <NavigationProperty Name="Address" Relationship="FellowshipModel.FK_PersonAddress_Address" FromRole="PersonAddress" ToRole="Address" />
+          <NavigationProperty Name="People" Relationship="FellowshipModel.FK_Person_PersonAddress" FromRole="PersonAddress" ToRole="Person" />
+          <NavigationProperty Name="Person" Relationship="FellowshipModel.FK_PersonAddress_PersonAddress" FromRole="PersonAddress" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="PersonBank">
+          <Key>
+            <PropertyRef Name="PersonBankId" />
+          </Key>
+          <Property Name="PersonBankId" Type="Int32" Nullable="false" />
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+          <Property Name="BankId" Type="Int32" Nullable="false" />
+          <Property Name="IsPrimaryBank" Type="Boolean" />
+          <NavigationProperty Name="Bank" Relationship="FellowshipModel.FK_PersonBank_Bank" FromRole="PersonBank" ToRole="Bank" />
+          <NavigationProperty Name="Payments" Relationship="FellowshipModel.FK_Payment_PersonBank" FromRole="PersonBank" ToRole="Payment" />
+          <NavigationProperty Name="People" Relationship="FellowshipModel.FK_Person_BankDetailsId" FromRole="PersonBank" ToRole="Person" />
+          <NavigationProperty Name="Person" Relationship="FellowshipModel.FK_PersonBank_1_Person" FromRole="PersonBank" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="PersonOrganization">
+          <Key>
+            <PropertyRef Name="PersonOrganizationId" />
+          </Key>
+          <Property Name="PersonOrganizationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonId" Type="Int32" />
+          <Property Name="OrganizationId" Type="Int32" />
+          <Property Name="IsPrimary" Type="Boolean" />
+          <NavigationProperty Name="Organization" Relationship="FellowshipModel.FK_PersonOrganization_Organization" FromRole="PersonOrganization" ToRole="Organization" />
+          <NavigationProperty Name="People" Relationship="FellowshipModel.FK_Person_PersonOrganization" FromRole="PersonOrganization" ToRole="Person" />
+          <NavigationProperty Name="Person" Relationship="FellowshipModel.FK_PersonOrganization_PersonOrganization" FromRole="PersonOrganization" ToRole="Person" />
+        </EntityType>
+        <Association Name="FK_BankAddress_Address">
+          <End Type="FellowshipModel.Address" Role="Address" Multiplicity="0..1" />
+          <End Type="FellowshipModel.BankAddress" Role="BankAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="BankAddress">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonAddress_Address">
+          <End Type="FellowshipModel.Address" Role="Address" Multiplicity="0..1" />
+          <End Type="FellowshipModel.PersonAddress" Role="PersonAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="PersonAddress">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BankAddress_Bank">
+          <End Type="FellowshipModel.Bank" Role="Bank" Multiplicity="0..1" />
+          <End Type="FellowshipModel.BankAddress" Role="BankAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="BankId" />
+            </Principal>
+            <Dependent Role="BankAddress">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BankAddress_Bank1">
+          <End Type="FellowshipModel.Bank" Role="Bank" Multiplicity="0..1" />
+          <End Type="FellowshipModel.BankAddress" Role="BankAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="BankId" />
+            </Principal>
+            <Dependent Role="BankAddress">
+              <PropertyRef Name="BankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonBank_Bank">
+          <End Type="FellowshipModel.Bank" Role="Bank" Multiplicity="1" />
+          <End Type="FellowshipModel.PersonBank" Role="PersonBank" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="BankId" />
+            </Principal>
+            <Dependent Role="PersonBank">
+              <PropertyRef Name="BankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Organization_OrgType1">
+          <End Type="FellowshipModel.OrganizationType" Role="OrganizationType" Multiplicity="0..1" />
+          <End Type="FellowshipModel.Organization" Role="Organization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrganizationType">
+              <PropertyRef Name="OrganizationTypeId" />
+            </Principal>
+            <Dependent Role="Organization">
+              <PropertyRef Name="OrganizationTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonOrganization_Organization">
+          <End Type="FellowshipModel.Organization" Role="Organization" Multiplicity="0..1" />
+          <End Type="FellowshipModel.PersonOrganization" Role="PersonOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="OrganizationId" />
+            </Principal>
+            <Dependent Role="PersonOrganization">
+              <PropertyRef Name="OrganizationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_PersonBank">
+          <End Type="FellowshipModel.PersonBank" Role="PersonBank" Multiplicity="0..1" />
+          <End Type="FellowshipModel.Payment" Role="Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonBank">
+              <PropertyRef Name="PersonBankId" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="PersonBankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Person_BankDetailsId">
+          <End Type="FellowshipModel.PersonBank" Role="PersonBank" Multiplicity="0..1" />
+          <End Type="FellowshipModel.Person" Role="Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonBank">
+              <PropertyRef Name="PersonBankId" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="PersonBankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Person_PersonAddress">
+          <End Type="FellowshipModel.PersonAddress" Role="PersonAddress" Multiplicity="0..1" />
+          <End Type="FellowshipModel.Person" Role="Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonAddress">
+              <PropertyRef Name="PersonAddressId" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="PersonAddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Person_PersonOrganization">
+          <End Type="FellowshipModel.PersonOrganization" Role="PersonOrganization" Multiplicity="0..1" />
+          <End Type="FellowshipModel.Person" Role="Person" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonOrganization">
+              <PropertyRef Name="PersonOrganizationId" />
+            </Principal>
+            <Dependent Role="Person">
+              <PropertyRef Name="PersonOrganizationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonAddress_PersonAddress">
+          <End Type="FellowshipModel.Person" Role="Person" Multiplicity="0..1" />
+          <End Type="FellowshipModel.PersonAddress" Role="PersonAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="PersonId" />
+            </Principal>
+            <Dependent Role="PersonAddress">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonBank_1_Person">
+          <End Type="FellowshipModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="FellowshipModel.PersonBank" Role="PersonBank" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="PersonId" />
+            </Principal>
+            <Dependent Role="PersonBank">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PersonOrganization_PersonOrganization">
+          <End Type="FellowshipModel.Person" Role="Person" Multiplicity="0..1" />
+          <End Type="FellowshipModel.PersonOrganization" Role="PersonOrganization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="PersonId" />
+            </Principal>
+            <Dependent Role="PersonOrganization">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -300,8 +995,6 @@
           <EntitySetMapping Name="Addresses">
             <EntityTypeMapping TypeName="FellowshipModel.Address">
               <MappingFragment StoreEntitySet="Address">
-                <ScalarProperty Name="UseCareOfAddress" ColumnName="UseCareOfAddress" />
-                <ScalarProperty Name="CareOfAddressId" ColumnName="CareOfAddressId" />
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
                 <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
                 <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
@@ -317,9 +1010,6 @@
                 <ScalarProperty Name="TelephoneNumber1" ColumnName="TelephoneNumber1" />
                 <ScalarProperty Name="TelephoneNumber2" ColumnName="TelephoneNumber2" />
                 <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
-                <ScalarProperty Name="Contactid1" ColumnName="Contactid1" />
-                <ScalarProperty Name="ContactId2" ColumnName="ContactId2" />
-                <ScalarProperty Name="ContactId3" ColumnName="ContactId3" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
                 <ScalarProperty Name="CreatedById" ColumnName="CreatedById" />
                 <ScalarProperty Name="CreatedByDate" ColumnName="CreatedByDate" />
@@ -352,6 +1042,8 @@
           <EntitySetMapping Name="Banks">
             <EntityTypeMapping TypeName="FellowshipModel.Bank">
               <MappingFragment StoreEntitySet="Bank">
+                <ScalarProperty Name="IsDeletedByDate" ColumnName="IsDeletedByDate" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="BankId" ColumnName="BankId" />
                 <ScalarProperty Name="BankName" ColumnName="BankName" />
                 <ScalarProperty Name="RoutingCode" ColumnName="RoutingCode" />
@@ -364,28 +1056,22 @@
           <EntitySetMapping Name="Organizations">
             <EntityTypeMapping TypeName="FellowshipModel.Organization">
               <MappingFragment StoreEntitySet="Organization">
-                <ScalarProperty Name="OrgId" ColumnName="OrgId" />
-                <ScalarProperty Name="OrgName" ColumnName="OrgName" />
-                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="OrganizationTypeId" ColumnName="OrganizationTypeId" />
+                <ScalarProperty Name="OrganizationName" ColumnName="OrganizationName" />
+                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrgTypes">
-            <EntityTypeMapping TypeName="FellowshipModel.OrgType">
-              <MappingFragment StoreEntitySet="OrgType">
-                <ScalarProperty Name="OrgTypeId" ColumnName="OrgTypeId" />
-                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Payments">
             <EntityTypeMapping TypeName="FellowshipModel.Payment">
               <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="DeletedByUserId" ColumnName="DeletedByUserId" />
+                <ScalarProperty Name="UpdatedByUserId" ColumnName="UpdatedByUserId" />
+                <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
+                <ScalarProperty Name="PersonBankId" ColumnName="PersonBankId" />
                 <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
                 <ScalarProperty Name="RecipientId" ColumnName="RecipientId" />
-                <ScalarProperty Name="BankId" ColumnName="BankId" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="CheckNumber" ColumnName="CheckNumber" />
@@ -398,11 +1084,8 @@
                 <ScalarProperty Name="IsAcknowledged" ColumnName="IsAcknowledged" />
                 <ScalarProperty Name="IsAcknowledgedDate" ColumnName="IsAcknowledgedDate" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreatedByDate" ColumnName="CreatedByDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="UpdatedByDate" ColumnName="UpdatedByDate" />
-                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
                 <ScalarProperty Name="DeletedByDate" ColumnName="DeletedByDate" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
               </MappingFragment>
@@ -411,6 +1094,10 @@
           <EntitySetMapping Name="People">
             <EntityTypeMapping TypeName="FellowshipModel.Person">
               <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="PersonCareOfAddressId" ColumnName="PersonCareOfAddressId" />
+                <ScalarProperty Name="PersonOrganizationId" ColumnName="PersonOrganizationId" />
+                <ScalarProperty Name="PersonBankId" ColumnName="PersonBankId" />
+                <ScalarProperty Name="PersonAddressId" ColumnName="PersonAddressId" />
                 <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
@@ -421,11 +1108,6 @@
                 <ScalarProperty Name="Position" ColumnName="Position" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
-                <ScalarProperty Name="PrimaryContactId" ColumnName="PrimaryContactId" />
-                <ScalarProperty Name="ContactDetailsId" ColumnName="ContactDetailsId" />
-                <ScalarProperty Name="PrimaryBankId" ColumnName="PrimaryBankId" />
-                <ScalarProperty Name="BankDetailsId" ColumnName="BankDetailsId" />
-                <ScalarProperty Name="OrganizationsId" ColumnName="OrganizationsId" />
                 <ScalarProperty Name="CreatedById" ColumnName="CreatedById" />
                 <ScalarProperty Name="CreatedByDate" ColumnName="CreatedByDate" />
                 <ScalarProperty Name="UpdatedById" ColumnName="UpdatedById" />
@@ -433,6 +1115,55 @@
                 <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
                 <ScalarProperty Name="DeletedByDate" ColumnName="DeletedByDate" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BankAddresses">
+            <EntityTypeMapping TypeName="FellowshipModel.BankAddress">
+              <MappingFragment StoreEntitySet="BankAddress">
+                <ScalarProperty Name="IsPrimary" ColumnName="IsPrimary" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="BankId" ColumnName="BankId" />
+                <ScalarProperty Name="BankAddressId" ColumnName="BankAddressId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrganizationTypes">
+            <EntityTypeMapping TypeName="FellowshipModel.OrganizationType">
+              <MappingFragment StoreEntitySet="OrganizationType">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="OrganizationTypeId" ColumnName="OrganizationTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonAddresses">
+            <EntityTypeMapping TypeName="FellowshipModel.PersonAddress">
+              <MappingFragment StoreEntitySet="PersonAddress">
+                <ScalarProperty Name="IsPrimary" ColumnName="IsPrimary" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="PersonAddressId" ColumnName="PersonAddressId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonBanks">
+            <EntityTypeMapping TypeName="FellowshipModel.PersonBank">
+              <MappingFragment StoreEntitySet="PersonBank">
+                <ScalarProperty Name="IsPrimaryBank" ColumnName="IsPrimaryBank" />
+                <ScalarProperty Name="BankId" ColumnName="BankId" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="PersonBankId" ColumnName="PersonBankId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonOrganizations">
+            <EntityTypeMapping TypeName="FellowshipModel.PersonOrganization">
+              <MappingFragment StoreEntitySet="PersonOrganization">
+                <ScalarProperty Name="IsPrimary" ColumnName="IsPrimary" />
+                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="PersonOrganizationId" ColumnName="PersonOrganizationId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

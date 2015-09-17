@@ -12,6 +12,29 @@
         <EntityTypeShape EntityType="FellowshipModel.OrgType" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FellowshipModel.Payment" Width="1.5" PointX="2.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FellowshipModel.Person" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
+        <AssociationConnector Association="FellowshipModel.FK_Organization_OrgType" />
+        <AssociationConnector Association="FellowshipModel.FK_Bank_Address" />
+        <AssociationConnector Association="FellowshipModel.FK_Person_Address" />
+        <AssociationConnector Association="FellowshipModel.FK_Payment_Recipient" />
+        <EntityTypeShape EntityType="FellowshipModel.BankAddress" Width="1.5" PointX="9" PointY="3.125" />
+        <EntityTypeShape EntityType="FellowshipModel.OrganizationType" Width="1.5" PointX="2.5" PointY="14.375" />
+        <EntityTypeShape EntityType="FellowshipModel.PersonAddress" Width="1.5" PointX="12" PointY="4.875" />
+        <EntityTypeShape EntityType="FellowshipModel.PersonBank" Width="1.5" PointX="9" PointY="6.75" />
+        <EntityTypeShape EntityType="FellowshipModel.PersonOrganization" Width="1.5" PointX="12" PointY="8.375" />
+        <AssociationConnector Association="FellowshipModel.FK_BankAddress_Address" />
+        <AssociationConnector Association="FellowshipModel.FK_PersonAddress_Address" />
+        <AssociationConnector Association="FellowshipModel.FK_BankAddress_Bank" />
+        <AssociationConnector Association="FellowshipModel.FK_BankAddress_Bank1" />
+        <AssociationConnector Association="FellowshipModel.FK_PersonBank_Bank" />
+        <AssociationConnector Association="FellowshipModel.FK_Organization_OrgType1" />
+        <AssociationConnector Association="FellowshipModel.FK_PersonOrganization_Organization" />
+        <AssociationConnector Association="FellowshipModel.FK_Payment_PersonBank" />
+        <AssociationConnector Association="FellowshipModel.FK_Person_BankDetailsId" />
+        <AssociationConnector Association="FellowshipModel.FK_Person_PersonAddress" />
+        <AssociationConnector Association="FellowshipModel.FK_Person_PersonOrganization" />
+        <AssociationConnector Association="FellowshipModel.FK_PersonAddress_PersonAddress" />
+        <AssociationConnector Association="FellowshipModel.FK_PersonBank_1_Person" />
+        <AssociationConnector Association="FellowshipModel.FK_PersonOrganization_PersonOrganization" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
