@@ -16,7 +16,7 @@ namespace TrackIt.Models
     {
         public int PaymentId { get; set; }
         public int RecipientId { get; set; }
-        public Nullable<int> BankId { get; set; }
+        public Nullable<int> PersonBankId { get; set; }
         public Nullable<decimal> Amount { get; set; }
         public string Description { get; set; }
         public string CheckNumber { get; set; }
@@ -29,12 +29,15 @@ namespace TrackIt.Models
         public Nullable<int> IsAcknowledged { get; set; }
         public Nullable<System.DateTime> IsAcknowledgedDate { get; set; }
         public string Notes { get; set; }
-        public Nullable<int> CreatedBy { get; set; }
+        public Nullable<int> CreatedByUserId { get; set; }
         public Nullable<System.DateTime> CreatedByDate { get; set; }
-        public Nullable<int> UpdatedBy { get; set; }
+        public Nullable<int> UpdatedByUserId { get; set; }
         public Nullable<System.DateTime> UpdatedByDate { get; set; }
-        public Nullable<int> DeletedBy { get; set; }
+        public Nullable<int> DeletedByUserId { get; set; }
         public Nullable<System.DateTime> DeletedByDate { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
+    
+        public virtual PersonBank PersonBank { get; set; }
+        public virtual Person Person { get; set; }
     }
 }

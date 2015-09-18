@@ -14,11 +14,25 @@ namespace TrackIt.Models
     
     public partial class Bank
     {
+        public Bank()
+        {
+            this.BankAddresses = new HashSet<BankAddress>();
+            this.BankAddresses1 = new HashSet<BankAddress>();
+            this.PersonBanks = new HashSet<PersonBank>();
+        }
+    
         public int BankId { get; set; }
         public string BankName { get; set; }
         public string RoutingCode { get; set; }
         public string AccountNumber { get; set; }
         public string SwiftCode { get; set; }
         public Nullable<int> AddressId { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
+        public Nullable<System.DateTime> IsDeletedByDate { get; set; }
+    
+        public virtual Address Address { get; set; }
+        public virtual ICollection<BankAddress> BankAddresses { get; set; }
+        public virtual ICollection<BankAddress> BankAddresses1 { get; set; }
+        public virtual ICollection<PersonBank> PersonBanks { get; set; }
     }
 }

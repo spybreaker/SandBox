@@ -187,6 +187,9 @@
     <Compile Include="Models\Bank.cs">
       <DependentUpon>Fellowship.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\BankAddress.cs">
+      <DependentUpon>Fellowship.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Fellowship.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -207,13 +210,22 @@
     <Compile Include="Models\Organization.cs">
       <DependentUpon>Fellowship.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\OrgType.cs">
+    <Compile Include="Models\OrganizationType.cs">
       <DependentUpon>Fellowship.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Payment.cs">
       <DependentUpon>Fellowship.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Person.cs">
+      <DependentUpon>Fellowship.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PersonAddress.cs">
+      <DependentUpon>Fellowship.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PersonBank.cs">
+      <DependentUpon>Fellowship.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PersonOrganization.cs">
       <DependentUpon>Fellowship.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

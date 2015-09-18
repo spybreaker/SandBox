@@ -12,10 +12,15 @@ namespace TrackIt.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class OrgType
+    public partial class BankAddress
     {
-        public int OrgTypeId { get; set; }
-        public string TypeName { get; set; }
-        public string Description { get; set; }
+        public int BankAddressId { get; set; }
+        public Nullable<int> BankId { get; set; }
+        public Nullable<int> AddressId { get; set; }
+        public Nullable<bool> IsPrimary { get; set; }
+    
+        public virtual Address Address { get; set; }
+        public virtual Bank Bank { get; set; }
+        public virtual Bank Bank1 { get; set; }
     }
 }

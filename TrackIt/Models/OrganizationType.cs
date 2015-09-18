@@ -12,19 +12,17 @@ namespace TrackIt.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Organization
+    public partial class OrganizationType
     {
-        public Organization()
+        public OrganizationType()
         {
-            this.PersonOrganizations = new HashSet<PersonOrganization>();
+            this.Organizations = new HashSet<Organization>();
         }
     
-        public int OrganizationId { get; set; }
-        public string OrganizationName { get; set; }
-        public Nullable<int> OrganizationTypeId { get; set; }
-        public Nullable<int> AddressId { get; set; }
+        public int OrganizationTypeId { get; set; }
+        public string TypeName { get; set; }
+        public string Description { get; set; }
     
-        public virtual OrganizationType OrganizationType { get; set; }
-        public virtual ICollection<PersonOrganization> PersonOrganizations { get; set; }
+        public virtual ICollection<Organization> Organizations { get; set; }
     }
 }

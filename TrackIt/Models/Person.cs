@@ -14,6 +14,14 @@ namespace TrackIt.Models
     
     public partial class Person
     {
+        public Person()
+        {
+            this.Payments = new HashSet<Payment>();
+            this.PersonAddresses = new HashSet<PersonAddress>();
+            this.PersonBanks = new HashSet<PersonBank>();
+            this.PersonOrganizations = new HashSet<PersonOrganization>();
+        }
+    
         public int PersonId { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
@@ -24,11 +32,9 @@ namespace TrackIt.Models
         public string Position { get; set; }
         public string Role { get; set; }
         public string Notes { get; set; }
-        public Nullable<int> PrimaryContactId { get; set; }
-        public Nullable<int> ContactDetailsId { get; set; }
-        public Nullable<int> PrimaryBankId { get; set; }
-        public Nullable<int> BankDetailsId { get; set; }
-        public Nullable<int> OrganizationsId { get; set; }
+        public Nullable<int> PersonAddressId { get; set; }
+        public Nullable<int> PersonBankId { get; set; }
+        public Nullable<int> PersonOrganizationId { get; set; }
         public Nullable<int> CreatedById { get; set; }
         public Nullable<System.DateTime> CreatedByDate { get; set; }
         public Nullable<int> UpdatedById { get; set; }
@@ -36,5 +42,15 @@ namespace TrackIt.Models
         public Nullable<int> DeletedBy { get; set; }
         public Nullable<System.DateTime> DeletedByDate { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
+        public Nullable<int> PersonCareOfAddressId { get; set; }
+    
+        public virtual Address Address { get; set; }
+        public virtual ICollection<Payment> Payments { get; set; }
+        public virtual PersonBank PersonBank { get; set; }
+        public virtual PersonAddress PersonAddress { get; set; }
+        public virtual PersonOrganization PersonOrganization { get; set; }
+        public virtual ICollection<PersonAddress> PersonAddresses { get; set; }
+        public virtual ICollection<PersonBank> PersonBanks { get; set; }
+        public virtual ICollection<PersonOrganization> PersonOrganizations { get; set; }
     }
 }
