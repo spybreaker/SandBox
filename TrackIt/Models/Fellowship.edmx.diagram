@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d9885bac89834506a13a3e3155eeff9f" Name="Diagram1">
+      <Diagram DiagramId="d9885bac89834506a13a3e3155eeff9f" Name="Diagram1" ZoomLevel="83">
         <EntityTypeShape EntityType="FellowshipModel.Address" Width="1.5" PointX="0.75" PointY="6.625" IsExpanded="true" />
         <EntityTypeShape EntityType="FellowshipModel.AppUser" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FellowshipModel.Bank" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
@@ -33,6 +33,8 @@
         <AssociationConnector Association="FellowshipModel.FK_PersonAddress_PersonAddress" ManuallyRouted="false" />
         <AssociationConnector Association="FellowshipModel.FK_PersonBank_1_Person" ManuallyRouted="false" />
         <AssociationConnector Association="FellowshipModel.FK_PersonOrganization_PersonOrganization" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FellowshipModel.Country" Width="1.5" PointX="0.75" PointY="14.125" />
+        <AssociationConnector Association="FellowshipModel.FK_Address_Country" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

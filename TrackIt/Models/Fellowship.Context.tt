@@ -4,7 +4,7 @@
 
 const string inputFile = @"Fellowship.edmx";
 var textTransform = DynamicTextTransformation.Create(this);
-var code = new CodeGenerationTools(this);
+var code = new CodeGenerationTools(this);	
 var ef = new MetadataTools(this);
 var typeMapper = new TypeMapper(code, ef, textTransform.Errors);
 var loader = new EdmMetadataLoader(textTransform.Host, textTransform.Errors);

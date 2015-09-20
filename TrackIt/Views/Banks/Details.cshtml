@@ -1,0 +1,74 @@
+﻿@model TrackIt.Models.Bank
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Bank</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BankName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoutingCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoutingCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccountNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccountNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SwiftCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SwiftCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDeleted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDeleted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDeletedByDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDeletedByDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.AddressLine1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address.AddressLine1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.BankId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

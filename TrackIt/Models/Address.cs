@@ -31,7 +31,6 @@ namespace TrackIt.Models
         public string District { get; set; }
         public string State { get; set; }
         public string ZipCode { get; set; }
-        public Nullable<int> Country { get; set; }
         public string MobileNumber1 { get; set; }
         public string MobileNumber2 { get; set; }
         public string TelephoneNumber1 { get; set; }
@@ -45,10 +44,12 @@ namespace TrackIt.Models
         public Nullable<int> DeletedBy { get; set; }
         public Nullable<System.DateTime> DeletedByDate { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
+        public Nullable<int> CountryId { get; set; }
     
         public virtual ICollection<Bank> Banks { get; set; }
         public virtual ICollection<BankAddress> BankAddresses { get; set; }
         public virtual ICollection<Person> People { get; set; }
         public virtual ICollection<PersonAddress> PersonAddresses { get; set; }
+        public virtual Country Country1 { get; set; }
     }
 }

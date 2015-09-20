@@ -1,0 +1,153 @@
+﻿@model IEnumerable<TrackIt.Models.Payment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CheckNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CheckedSignedById)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CheckDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentSentBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentById)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsCleared)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsClearedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsAcknowledged)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsAcknowledgedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Notes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedByUserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedByDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedByUserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedByDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeletedByUserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeletedByDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsDeleted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PersonBank.PersonBankId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Person.FirstName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CheckNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CheckedSignedById)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CheckDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentSentBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentById)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsCleared)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsClearedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsAcknowledged)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsAcknowledgedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Notes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedByUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedByDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedByUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedByDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeletedByUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeletedByDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsDeleted)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PersonBank.PersonBankId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Person.FirstName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.PaymentId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PaymentId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PaymentId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -36,5 +36,6 @@ namespace TrackIt.Models
         public virtual DbSet<PersonAddress> PersonAddresses { get; set; }
         public virtual DbSet<PersonBank> PersonBanks { get; set; }
         public virtual DbSet<PersonOrganization> PersonOrganizations { get; set; }
+        public virtual DbSet<Country> Countries { get; set; }
     }
 }

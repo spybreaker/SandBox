@@ -1,0 +1,192 @@
+﻿@model TrackIt.Models.Payment
+
+@{
+    ViewBag.Title = "Delete";
+    }
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Payment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CheckNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CheckNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CheckedSignedById)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CheckedSignedById)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CheckDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CheckDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentSentBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentSentBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentById)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentById)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsCleared)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsCleared)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsClearedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsClearedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsAcknowledged)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsAcknowledged)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsAcknowledgedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsAcknowledgedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Notes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Notes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedByUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedByUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedByDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedByDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedByUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedByUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedByDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedByDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeletedByUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeletedByUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeletedByDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeletedByDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDeleted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDeleted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonBank.PersonBankId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PersonBank.PersonBankId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Person.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Person.FirstName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="FellowshipModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="FellowshipModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="AddressId" />
@@ -18,7 +18,7 @@
           <Property Name="District" Type="varchar" MaxLength="30" />
           <Property Name="State" Type="varchar" MaxLength="30" />
           <Property Name="ZipCode" Type="varchar" MaxLength="15" />
-          <Property Name="Country" Type="int" />
+          <Property Name="CountryId" Type="int" />
           <Property Name="MobileNumber1" Type="varchar" MaxLength="15" />
           <Property Name="MobileNumber2" Type="varchar" MaxLength="15" />
           <Property Name="TelephoneNumber1" Type="varchar" MaxLength="15" />
@@ -71,6 +71,13 @@
           <Property Name="BankId" Type="int" />
           <Property Name="AddressId" Type="int" />
           <Property Name="IsPrimary" Type="bit" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryName" Type="varchar" MaxLength="30" Nullable="false" />
         </EntityType>
         <EntityType Name="Organization">
           <Key>
@@ -169,6 +176,18 @@
           <Property Name="OrganizationId" Type="int" />
           <Property Name="IsPrimary" Type="bit" />
         </EntityType>
+        <Association Name="FK_Address_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Bank_Address">
           <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
           <End Role="Bank" Type="Self.Bank" Multiplicity="*" />
@@ -194,18 +213,6 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BankAddress_Bank">
-          <End Role="Bank" Type="Self.Bank" Multiplicity="0..1" />
-          <End Role="BankAddress" Type="Self.BankAddress" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Bank">
-              <PropertyRef Name="BankId" />
-            </Principal>
-            <Dependent Role="BankAddress">
-              <PropertyRef Name="AddressId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BankAddress_Bank1">
           <End Role="Bank" Type="Self.Bank" Multiplicity="0..1" />
           <End Role="BankAddress" Type="Self.BankAddress" Multiplicity="*" />
           <ReferentialConstraint>
@@ -378,6 +385,7 @@
           <EntitySet Name="AppUser" EntityType="Self.AppUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Bank" EntityType="Self.Bank" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BankAddress" EntityType="Self.BankAddress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organization" EntityType="Self.Organization" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrganizationType" EntityType="Self.OrganizationType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
@@ -385,6 +393,10 @@
           <EntitySet Name="PersonAddress" EntityType="Self.PersonAddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonBank" EntityType="Self.PersonBank" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonOrganization" EntityType="Self.PersonOrganization" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Address_Country" Association="Self.FK_Address_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
           <AssociationSet Name="FK_Bank_Address" Association="Self.FK_Bank_Address">
             <End Role="Address" EntitySet="Address" />
             <End Role="Bank" EntitySet="Bank" />
@@ -394,10 +406,6 @@
             <End Role="BankAddress" EntitySet="BankAddress" />
           </AssociationSet>
           <AssociationSet Name="FK_BankAddress_Bank" Association="Self.FK_BankAddress_Bank">
-            <End Role="Bank" EntitySet="Bank" />
-            <End Role="BankAddress" EntitySet="BankAddress" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BankAddress_Bank1" Association="Self.FK_BankAddress_Bank1">
             <End Role="Bank" EntitySet="Bank" />
             <End Role="BankAddress" EntitySet="BankAddress" />
           </AssociationSet>
@@ -454,8 +462,7 @@
             <End Role="PersonOrganization" EntitySet="PersonOrganization" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="FellowshipModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -472,7 +479,6 @@
           <Property Name="District" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="State" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="ZipCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="Country" Type="Int32" />
           <Property Name="MobileNumber1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="MobileNumber2" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="TelephoneNumber1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
@@ -490,6 +496,8 @@
           <NavigationProperty Name="BankAddresses" Relationship="Self.FK_BankAddress_Address" FromRole="Address" ToRole="BankAddress" />
           <NavigationProperty Name="People" Relationship="Self.FK_Person_Address" FromRole="Address" ToRole="Person" />
           <NavigationProperty Name="PersonAddresses" Relationship="Self.FK_PersonAddress_Address" FromRole="Address" ToRole="PersonAddress" />
+          <Property Name="CountryId" Type="Int32" />
+          <NavigationProperty Name="Country1" Relationship="FellowshipModel.FK_Address_Country" FromRole="Address" ToRole="Country" />
         </EntityType>
         <EntityType Name="AppUser">
           <Key>
@@ -522,7 +530,6 @@
           <Property Name="IsDeletedByDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Address" Relationship="Self.FK_Bank_Address" FromRole="Bank" ToRole="Address" />
           <NavigationProperty Name="BankAddresses" Relationship="Self.FK_BankAddress_Bank" FromRole="Bank" ToRole="BankAddress" />
-          <NavigationProperty Name="BankAddresses1" Relationship="Self.FK_BankAddress_Bank1" FromRole="Bank" ToRole="BankAddress" />
           <NavigationProperty Name="PersonBanks" Relationship="Self.FK_PersonBank_Bank" FromRole="Bank" ToRole="PersonBank" />
         </EntityType>
         <EntityType Name="BankAddress">
@@ -941,7 +948,32 @@
             <End Role="Person" EntitySet="People" />
             <End Role="PersonOrganization" EntitySet="PersonOrganizations" />
           </AssociationSet>
+          <EntitySet Name="Countries" EntityType="FellowshipModel.Country" />
+          <AssociationSet Name="FK_Address_Country" Association="FellowshipModel.FK_Address_Country">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Addresses" Relationship="FellowshipModel.FK_Address_Country" FromRole="Country" ToRole="Address" />
+          <Property Name="CountryName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Address_Country">
+          <End Type="FellowshipModel.Country" Role="Country" Multiplicity="0..1" />
+          <End Type="FellowshipModel.Address" Role="Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -951,6 +983,7 @@
           <EntitySetMapping Name="Addresses">
             <EntityTypeMapping TypeName="FellowshipModel.Address">
               <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
                 <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
                 <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
@@ -960,7 +993,6 @@
                 <ScalarProperty Name="District" ColumnName="District" />
                 <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
                 <ScalarProperty Name="MobileNumber1" ColumnName="MobileNumber1" />
                 <ScalarProperty Name="MobileNumber2" ColumnName="MobileNumber2" />
                 <ScalarProperty Name="TelephoneNumber1" ColumnName="TelephoneNumber1" />
@@ -1120,6 +1152,14 @@
                 <ScalarProperty Name="PersonId" ColumnName="PersonId" />
                 <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
                 <ScalarProperty Name="IsPrimary" ColumnName="IsPrimary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="FellowshipModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

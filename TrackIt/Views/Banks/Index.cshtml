@@ -1,0 +1,69 @@
+﻿@model IEnumerable<TrackIt.Models.Bank>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BankName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RoutingCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccountNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SwiftCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsDeleted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsDeletedByDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address.AddressLine1)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BankName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RoutingCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccountNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SwiftCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsDeleted)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsDeletedByDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address.AddressLine1)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.BankId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.BankId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.BankId })
+        </td>
+    </tr>
+}
+
+</table>

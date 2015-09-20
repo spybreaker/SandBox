@@ -17,7 +17,6 @@ namespace TrackIt.Models
         public Bank()
         {
             this.BankAddresses = new HashSet<BankAddress>();
-            this.BankAddresses1 = new HashSet<BankAddress>();
             this.PersonBanks = new HashSet<PersonBank>();
         }
     
@@ -32,7 +31,6 @@ namespace TrackIt.Models
     
         public virtual Address Address { get; set; }
         public virtual ICollection<BankAddress> BankAddresses { get; set; }
-        public virtual ICollection<BankAddress> BankAddresses1 { get; set; }
         public virtual ICollection<PersonBank> PersonBanks { get; set; }
     }
 }
